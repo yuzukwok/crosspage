@@ -1,0 +1,13 @@
+shadow
+vase
+antique
+steak
+spy
+solve
+gate
+entrance
+lock
+ladder
+balcony
+handle
+hide

@@ -1,0 +1,39 @@
+<view class="container">
+  <view class="title">Crossword Game</view>
+  <view class="meta">
+    <text>第{{currentIndex+1}}/{{layout.length}}题（{{currentDirection==='across'?'横向':'纵向'}}）</text>
+  </view>
+  <view class="grid" style="grid-template-columns: repeat({{size}}, 1fr);">
+    <block wx:for="{{cells}}" wx:key="*this">
+      <view class="cell {{item.isBlock ? 'block' : ''}} {{item.highlight? 'highlight': ''}} {{item.wrong? 'wrong': ''}}" data-index="{{index}}" bindtap="onCellTap">
+        <input wx:if="{{!item.isBlock}}" class="input" maxlength="1" value="{{item.value}}" data-index="{{index}}" bindinput="onInput" focus="{{item.focus}}"/>
+      </view>
+    </block>
+  </view>
+  <view class="actions">
+    <button bindtap="clearAll">清空答案</button>
+    <button bindtap="check">检查答案</button>
+  </view>
+  <view class="clue-list">
+    <view class="clue-group">
+      <view class="clue-group-title">横向</view>
+      <block wx:for="{{acrossList}}" wx:key="idx">
+        <view class="clue-item {{currentIndex===item.idx?'active':''}}" bindtap="jumpTo" data-idx="{{item.idx}}">
+          <text class="clue-num">{{item.num}}.</text> <text>{{item.clue}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="clue-group">
+      <view class="clue-group-title">纵向</view>
+      <block wx:for="{{downList}}" wx:key="idx">
+        <view class="clue-item {{currentIndex===item.idx?'active':''}}" bindtap="jumpTo" data-idx="{{item.idx}}">
+          <text class="clue-num">{{item.num}}.</text> <text>{{item.clue}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view wx:if="{{showClue}}" class="clue-popup clue-popup-float">
+    <text class="clue-text">{{currentClue}}</text>
+    <text class="clue-close" bindtap="closeClue">✕</text>
+  </view>
+</view>

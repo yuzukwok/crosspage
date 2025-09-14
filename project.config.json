@@ -1,0 +1,9 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "projectname": "crossword-mini",
+  "appid": "YOUR_MINI_APPID",
+  "setting": {
+    "urlCheck": false
+  },
+  "compileType": "miniprogram"
+}

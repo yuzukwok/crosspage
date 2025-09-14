@@ -1,0 +1,146 @@
+/* 顶部留出 clue-popup 和小程序标题栏空间（约88px） */
+/* 恢复顶部 padding，clue-popup 显示在底部 */
+ .container {
+	padding: 16px 8px 60px 8px;
+	min-height: 100vh;
+	background: #f7f8fa;
+	box-sizing: border-box;
+}
+.title {
+	text-align: center;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 12px 0 18px 0;
+	color: #1976d2;
+}
+.grid {
+	display: grid;
+	gap: 3px;
+	margin: 0 auto 18px auto;
+	max-width: 100%;
+	background: #e3eaf2;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px #0001;
+}
+.cell {
+	width: 100%;
+	padding-top: 100%;
+	position: relative;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 1px 2px #0001;
+	border: 1px solid #e0e0e0;
+}
+.cell.block {
+	background: #333;
+	border: 1px solid #222;
+}
+.cell.highlight {
+	outline: 2px solid #1976d2;
+	z-index: 2;
+}
+.cell.wrong {
+	background: #ffebee;
+	border: 1.5px solid #e57373;
+}
+.input {
+	position: absolute;
+	left: 0; top: 0; right: 0; bottom: 0;
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	color: #222;
+	background: transparent;
+	border: none;
+	outline: none;
+	text-transform: uppercase;
+}
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin: 18px 0 8px 0;
+}
+.actions button {
+	flex: 1 1 120px;
+	min-width: 90px;
+	background: #1976d2;
+	color: #fff;
+	border-radius: 6px;
+	border: none;
+	padding: 10px 0;
+	font-size: 15px;
+	margin: 0 2px;
+}
+.actions button:active {
+	background: #1565c0;
+}
+.clue-popup {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	background: #fffbe7;
+	font-size: 17px;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 12px 10px 12px 10px;
+	box-shadow: 0 2px 8px #0001;
+	border-bottom: 1px solid #eee;
+}
+.clue-popup-float {
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	min-width: 220px;
+	max-width: 98vw;
+	background: #fffbe7;
+	border-radius: 12px;
+	box-shadow: 0 2px 12px #0001, 0 1.5px 0 #eee;
+	padding: 6px 38px 6px 14px;
+	font-size: 16px;
+	z-index: 2000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 28px;
+	border: 1px solid #eee;
+}
+.clue-text {
+	font-size: 17px;
+	color: #333;
+	text-align: center;
+	flex: 1;
+}
+.clue-close {
+	position: absolute;
+	right: 10px;
+	top: 7px;
+	font-size: 16px;
+	color: #888;
+	padding: 0 4px;
+	border-radius: 50%;
+	cursor: pointer;
+	background: #f5f5f5;
+	transition: background 0.2s;
+	line-height: 18px;
+}
+.clue-close:active {
+	background: #e0e0e0;
+}
+.clue-text {
+	font-size: 17px;
+	color: #333;
+	text-align: center;
+}
+@media (max-width: 500px) {
+	.title { font-size: 18px; }
+	.actions button { font-size: 13px; min-width: 70px; }
+	.clue-popup { font-size: 15px; padding: 10px 4px 18px 4px; }
+}
