@@ -4,12 +4,14 @@
 
 ## 功能特性
 
-- 自动生成填字游戏网格和布局
-- 支持横向和纵向单词
-- 生成 HTML 版本，支持打印适配 A4 纸
-- 集成微信小程序前端
-- 使用 LLM 生成单词定义和提示
-- 支持批量单词处理
+- 🎮 自动生成填字游戏网格和布局
+- 📱 支持横向和纵向单词交叉放置
+- 🌐 生成 HTML 版本，支持打印适配 A4 纸
+- 📝 **全新Web配置界面** - 易用美观的可视化管理工具
+- 📱 集成微信小程序前端
+- 🤖 使用 LLM 生成单词定义和提示
+- 📊 支持批量单词处理
+- 🎨 **多种HTML样式** - 经典、现代、简约、报纸四种风格
 
 ## 安装
 
@@ -35,6 +37,38 @@
 
 ## 使用
 
+### 🎯 Web配置界面（推荐）
+
+我们提供了一个易用美观的Web配置界面，让您可以轻松创建和自定义填字游戏：
+
+1. **启动服务**：
+   ```bash
+   # 安装依赖
+   pip install -r requirements.txt
+   
+   # 启动API服务器
+   python api_server.py
+   
+   # 在另一个终端启动配置界面服务器
+   python -m http.server 3000
+   ```
+
+2. **使用配置界面**：
+   - 访问 `http://localhost:3000/config.html`
+   - 导入词表文件或手动输入单词
+   - 选择HTML样式（经典、现代、简约、报纸）
+   - 预览生成的填字游戏
+   - 编辑题目描述
+   - 一键导出HTML文件
+
+**主要特性**：
+- 📝 支持文件拖拽导入词表
+- 🎨 四种预定义HTML样式
+- 👀 实时预览填字游戏
+- ✏️ 在线编辑题目描述
+- 📥 一键导出完整HTML文件
+- 🔧 灵活的配置选项
+
 ### 生成填字游戏
 
 运行主管道：
@@ -54,7 +88,7 @@ from llm_definition import batch_generate_definitions
 words = ['apple', 'banana', 'orange']
 grid, layout = generate_crossword(words)
 clues = batch_generate_definitions(words)
-generate_crossword_html(grid, layout, clues, 'output.html')
+generate_crossword_html(grid, layout, clues, 'output.html', 'modern')
 ```
 
 ### 微信小程序
@@ -67,10 +101,12 @@ generate_crossword_html(grid, layout, clues, 'output.html')
 crosspage/
 ├── api_server.py          # API 服务器
 ├── crossword_generator.py  # 填字游戏生成器
-├── crossword_html.py       # HTML 生成器
+├── crossword_html.py       # HTML 生成器（新增）
 ├── crossword_pipeline.py   # 主处理管道
+├── config.html            # Web配置界面（新增）
 ├── llm_definition.py       # LLM 定义生成
 ├── upload_oss.py           # OSS 上传工具
+├── requirements.txt        # Python依赖（新增）
 ├── words.txt               # 单词列表
 ├── project.config.json     # 项目配置
 ├── .env                    # 环境变量
