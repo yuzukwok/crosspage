@@ -126,6 +126,9 @@ Thumbs.db
 *.temp
 .tmp/
 
+# Test HTML files
+test_*.html
+
 # Logs
 *.log
 
