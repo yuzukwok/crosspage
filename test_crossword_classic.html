@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>填字游戏</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: #138496;
+        }
+        
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .crossword-grid {
+            display: grid;
+            gap: 2px;
+            background: #333;
+            border: 2px solid #333;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cell {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            background: white;
+        }
+        
+        .cell-black {
+            background: #333;
+        }
+        
+        .cell-number {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 10px;
+            font-weight: bold;
+            line-height: 1;
+            z-index: 1;
+        }
+        
+        .cell-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+        }
+        
+        .cell-input:focus {
+            outline: 2px solid #007bff;
+            background: #e3f2fd;
+        }
+        
+        .cell.correct {
+            background: #d4edda;
+        }
+        
+        .cell.incorrect {
+            background: #f8d7da;
+        }
+        
+        .clues-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .clues-group h3 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        
+        .clues-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .clues-list li {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+        
+        .clues-list li:hover {
+            background: #f8f9fa;
+        }
+        
+        .clue-number {
+            font-weight: bold;
+            color: #007bff;
+            margin-right: 5px;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>填字游戏</h1>
+            <div class="controls">
+                <button onclick="checkAnswers()" class="btn btn-primary">检查答案</button>
+                <button onclick="clearAll()" class="btn btn-secondary">清空</button>
+                <button onclick="showAnswers()" class="btn btn-info">显示答案</button>
+            </div>
+        </header>
+        
+        <div class="game-area">
+            <div class="grid-container">
+                <div class="crossword-grid" style="grid-template-columns: repeat(12, 1fr);"><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="1" data-col="7" data-answer="O">
+                    <span class="cell-number">3</span>
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="2" data-col="7" data-answer="R">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="3" data-col="7" data-answer="A">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="4" data-col="7" data-answer="N">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="5" data-col="3" data-answer="B">
+                    <span class="cell-number">2</span>
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="5" data-col="7" data-answer="G">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="6" data-col="3" data-answer="A">
+                    <span class="cell-number">1</span>
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div>
+                <div class="cell" data-row="6" data-col="4" data-answer="P">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div>
+                <div class="cell" data-row="6" data-col="5" data-answer="P">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div>
+                <div class="cell" data-row="6" data-col="6" data-answer="L">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div>
+                <div class="cell" data-row="6" data-col="7" data-answer="E">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="7" data-col="3" data-answer="N">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="8" data-col="3" data-answer="A">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="9" data-col="3" data-answer="N">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div>
+                <div class="cell" data-row="10" data-col="3" data-answer="A">
+                    
+                    <input type="text" maxlength="1" class="cell-input" 
+                           oninput="handleInput(this)" onkeydown="handleKeydown(event, this)">
+                </div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div><div class="cell cell-black"></div></div>
+            </div>
+            
+            <div class="clues-container">
+                <div class="clues-section"><div class="clues-group"><h3>横向</h3><ul class="clues-list"><li><span class="clue-number">1.</span> A red or green fruit</li></ul></div><div class="clues-group"><h3>纵向</h3><ul class="clues-list"><li><span class="clue-number">2.</span> A yellow curved fruit</li><li><span class="clue-number">3.</span> A citrus fruit</li></ul></div></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+        const GRID = [["", "", "", "", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "O", "", "", "", ""], ["", "", "", "", "", "", "", "R", "", "", "", ""], ["", "", "", "", "", "", "", "A", "", "", "", ""], ["", "", "", "", "", "", "", "N", "", "", "", ""], ["", "", "", "B", "", "", "", "G", "", "", "", ""], ["", "", "", "A", "P", "P", "L", "E", "", "", "", ""], ["", "", "", "N", "", "", "", "", "", "", "", ""], ["", "", "", "A", "", "", "", "", "", "", "", ""], ["", "", "", "N", "", "", "", "", "", "", "", ""], ["", "", "", "A", "", "", "", "", "", "", "", ""], ["", "", "", "", "", "", "", "", "", "", "", ""]];
+        const LAYOUT = [{"word": "APPLE", "row": 6, "col": 3, "direction": "across", "number": 1}, {"word": "BANANA", "row": 5, "col": 3, "direction": "down", "number": 2}, {"word": "ORANGE", "row": 1, "col": 7, "direction": "down", "number": 3}];
+        
+        function handleInput(input) {
+            input.value = input.value.toUpperCase();
+            if (input.value) {
+                moveToNext(input);
+            }
+        }
+        
+        function handleKeydown(event, input) {
+            if (event.key === 'Backspace' && !input.value) {
+                moveToPrevious(input);
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                moveToNext(input);
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                moveToPrevious(input);
+            }
+        }
+        
+        function moveToNext(currentInput) {
+            const cells = Array.from(document.querySelectorAll('.cell-input'));
+            const currentIndex = cells.indexOf(currentInput);
+            if (currentIndex < cells.length - 1) {
+                cells[currentIndex + 1].focus();
+            }
+        }
+        
+        function moveToPrevious(currentInput) {
+            const cells = Array.from(document.querySelectorAll('.cell-input'));
+            const currentIndex = cells.indexOf(currentInput);
+            if (currentIndex > 0) {
+                cells[currentIndex - 1].focus();
+            }
+        }
+        
+        function checkAnswers() {
+            let correct = 0;
+            let total = 0;
+            
+            document.querySelectorAll('.cell').forEach(cell => {
+                const input = cell.querySelector('.cell-input');
+                if (input) {
+                    total++;
+                    const answer = cell.dataset.answer;
+                    const userInput = input.value.toUpperCase();
+                    
+                    cell.classList.remove('correct', 'incorrect');
+                    
+                    if (userInput === answer) {
+                        correct++;
+                        cell.classList.add('correct');
+                    } else if (userInput) {
+                        cell.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            alert(`正确: ${correct}/${total}`);
+        }
+        
+        function clearAll() {
+            document.querySelectorAll('.cell-input').forEach(input => {
+                input.value = '';
+                input.parentElement.classList.remove('correct', 'incorrect');
+            });
+        }
+        
+        function showAnswers() {
+            document.querySelectorAll('.cell').forEach(cell => {
+                const input = cell.querySelector('.cell-input');
+                if (input) {
+                    input.value = cell.dataset.answer;
+                    cell.classList.add('correct');
+                    cell.classList.remove('incorrect');
+                }
+            });
+        }
+    
+    </script>
+</body>
+</html>
